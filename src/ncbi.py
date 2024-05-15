@@ -11,7 +11,10 @@ def retrieve_data_from_ncbi(out_dir="", taxon="", assembly_level="",
         return results
     cmd = ["datasets", "download", "genome"]
     if taxon:
-        cmd.append("taxon {}".format(" ".join(taxon)))
+        if len(taxon) == 2:
+            cmd.append("taxon \"{}\"".format(" ".join(taxon)))
+        else:
+            cmd.append("taxon {}".format(" ".join(taxon)))
     
     if assembly_level in ["chromosome", "complete", 
                           "complete", "scaffold"]:
