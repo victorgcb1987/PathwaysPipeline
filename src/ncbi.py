@@ -34,7 +34,7 @@ def retrieve_data_from_ncbi(out_dir="", taxon="", assembly_level="",
         cmd.append("--include {}".format(data_type))
     elif data_type:
         raise ValueError("Invalid assembly source value: {}".format(data_type))
-    print("Command running: "+"\t".join(cmd))
+    print("Command running: "+" ".join(cmd))
     retrieve_run = run("\t".join(cmd), capture_output=True, shell=True)
     results = {"output_file": out_filepath,
                "return_code": retrieve_run.returncode,
