@@ -40,4 +40,4 @@ def retrieve_data_from_ncbi(out_dir="", taxon="", assembly_level="",
     results = {"output_file": out_filepath,
                "return_code": retrieve_run.returncode,
                "log_messages": retrieve_run.stderr.decode()}
-    
+    return results
