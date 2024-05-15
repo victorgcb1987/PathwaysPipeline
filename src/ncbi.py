@@ -1,9 +1,9 @@
 from subprocess import run
 
-def retrieve_data_from_ncbi(out_fdir="", taxon="", assembly_level="", 
+def retrieve_data_from_ncbi(out_dir="", taxon="", assembly_level="", 
                             assembly_version="", assembly_source="", 
                             data_type="protein"):
-    out_filepath = out_fdir / "ncbi_{}.zip".format(taxon)
+    out_filepath = out_dir / "ncbi_{}.zip".format(taxon)
     if out_filepath.exists():
         results = {"output_file": out_filepath,
                    "return_code": 0,
