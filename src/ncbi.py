@@ -11,7 +11,7 @@ def retrieve_data_from_ncbi(out_dir="", taxon="", assembly_level="",
         return results
     cmd = ["datasets", "download", "genome"]
     if taxon:
-        cmd.append("taxon {}".format(taxon))
+        cmd.append("taxon {}".format(" ".join(taxon)))
     
     if assembly_level in ["chromosome", "complete", 
                           "complete", "scaffold"]:
@@ -34,7 +34,7 @@ def retrieve_data_from_ncbi(out_dir="", taxon="", assembly_level="",
         cmd.append("--include {}".format(data_type))
     elif data_type:
         raise ValueError("Invalid assembly source value: {}".format(data_type))
-    cmd.append("--filename ncbi_{}.zip".format(taxon))
+    cmd.append("--filename ncbi_{}.zip".format("_".join(taxon)))
     print("Command running: "+" ".join(cmd))
     retrieve_run = run("\t".join(cmd), capture_output=True, shell=True)
     results = {"output_file": out_filepath,

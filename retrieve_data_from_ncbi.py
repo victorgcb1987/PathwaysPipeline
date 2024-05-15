@@ -50,7 +50,7 @@ def parse_arguments():
 def get_arguments():
     parser = parse_arguments()
     out_dir = Path(parser.out_dir)
-    taxon = " ".join(parser.taxon)
+    taxon = parser.taxon
     assembly_level = parser.assembly_level
     assembly_version = parser.assembly_version
     assembly_source = parser.assembly_source
@@ -69,6 +69,6 @@ def main():
     print(results)
     check_results("NCBI-datasets", results)
     
-    
+
 if __name__ == "__main__":
     main()
