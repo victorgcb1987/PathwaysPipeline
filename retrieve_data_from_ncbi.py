@@ -17,12 +17,11 @@ def parse_arguments():
     
     help_out_dir = "(Required) out dir"
     parser.add_argument("--out_dir", "-o", type=str,
-                        help=help_out_dir)
+                        required=True, help=help_out_dir)
     
-    help_taxon = "(Optional) Taxon to be retrieved. Default: all(!)"
-    parser.add_argument("--taxon", "-t", type=str,
-                        default="all",
-                        help=help_taxon)
+    help_taxon = "(Optional) Taxon to be retrieved. Default: all(!!!)"
+    parser.add_argument("--taxon", "-t", type=str, nargs='+',
+                        default="", help=help_taxon)
     
     help_assembly_level = "(Optional) Assembly level to retrieve. Options are chromosome, complete, contig, scaffold. Default: all"
     parser.add_argument("--assembly_level", "-l", type=str,
@@ -30,8 +29,7 @@ def parse_arguments():
     
     help_assembly_version = "(Optional) Assembly version. Default: latest"
     parser.add_argument("--assembly_version", "-v", type=str,
-                        default="latest",
-                        help=help_assembly_version)
+                        default="latest", help=help_assembly_version)
     
     help_assembly_source = "(Optional) Assembly source. Options are RefSeq, GenBank, all. Default: GenBank"
     parser.add_argument("--assembly_source", "-s", type=str,
@@ -52,7 +50,7 @@ def parse_arguments():
 def get_arguments():
     parser = parse_arguments()
     out_dir = Path(parser.out_dir)
-    taxon = parser.taxon
+    taxon = " ".join(parser.taxon)
     assembly_level = parser.assembly_level
     assembly_version = parser.assembly_version
     assembly_source = parser.assembly_source
@@ -71,8 +69,6 @@ def main():
     print(results)
     check_results("NCBI-datasets", results)
     
-
     
-
 if __name__ == "__main__":
     main()
