@@ -66,7 +66,6 @@ def get_arguments():
 def main():
     arguments = get_arguments()
     results = retrieve_data_from_ncbi(**arguments)
-    print(results)
     check_results("NCBI-datasets", results)
     
 

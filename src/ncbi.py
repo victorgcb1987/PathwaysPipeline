@@ -16,8 +16,7 @@ def retrieve_data_from_ncbi(out_dir="", taxon="", assembly_level="",
         else:
             cmd.append("taxon {}".format(" ".join(taxon)))
     
-    if assembly_level in ["chromosome", "complete", 
-                          "complete", "scaffold"]:
+    if assembly_level in ["chromosome", "complete", "scaffold", "all", "contig"]:
         cmd.append("--assembly-level {}".format(assembly_level))
     elif assembly_level:
         raise ValueError("Invalid assembly level value: {}".format(assembly_level))
