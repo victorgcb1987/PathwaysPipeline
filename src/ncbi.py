@@ -1,10 +1,10 @@
 from subprocess import run
 
-def retrieve_data_from_ncbi(out_fdir, force_retrieve=False, taxon="", assembly_level="", 
+def retrieve_data_from_ncbi(out_fdir="", taxon="", assembly_level="", 
                             assembly_version="", assembly_source="", 
-                            include="protein"):
+                            data_type="protein"):
     out_filepath = out_fdir / "ncbi_{}.zip".format(taxon)
-    if out_filepath.exists() and not force_retrieve:
+    if out_filepath.exists():
         results = {"output_file": out_filepath,
                    "return_code": 0,
                    "log_messages": "NCBI data already retrieved"}
@@ -29,11 +29,11 @@ def retrieve_data_from_ncbi(out_fdir, force_retrieve=False, taxon="", assembly_l
     elif assembly_source:
         raise ValueError("Invalid assembly source value: {}".format(assembly_source))
     
-    if include in ["protein", "genome", "rna", "protein", "cds",
+    if data_type in ["protein", "genome", "rna", "protein", "cds",
                    "gff3", "gtf", "gbff", "seq-report"]:
-        cmd.append("--include {}".format(include))
-    elif include:
-        raise ValueError("Invalid assembly source value: {}".format(include))
+        cmd.append("--include {}".format(data_type))
+    elif data_type:
+        raise ValueError("Invalid assembly source value: {}".format(data_type))
     
     retrieve_run = run("\t".join(cmd), capture_output=True, shell=True)
     results = {"output_file": out_filepath,
