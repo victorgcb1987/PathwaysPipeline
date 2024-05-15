@@ -28,12 +28,12 @@ def parse_arguments():
     parser.add_argument("--assembly_level", "-l", type=str,
                         default="all", help=help_assembly_level)
     
-    help_assembly_version = "(Optional) Assembly version"
+    help_assembly_version = "(Optional) Assembly version. Default: latest"
     parser.add_argument("--assembly_version", "-v", type=str,
                         default="latest",
                         help=help_assembly_version)
     
-    help_assembly_source = "(Optional) Asembly source. Options are RefSeq, GenBank, all. Default: GenBank"
+    help_assembly_source = "(Optional) Assembly source. Options are RefSeq, GenBank, all. Default: GenBank"
     parser.add_argument("--assembly_source", "-s", type=str,
                         default="GenBank", help=help_assembly_source)
     
@@ -57,7 +57,7 @@ def get_arguments():
     assembly_version = parser.assembly_version
     assembly_source = parser.assembly_source
     data_type = parser.data_type
-    return {"input_dir": out_dir, 
+    return {"out_dir": out_dir, 
             "taxon": taxon,
             "assembly_level": assembly_level,
             "assembly_version": assembly_version,
