@@ -23,9 +23,9 @@ def parse_arguments():
     parser.add_argument("--taxon", "-t", type=str, nargs='+',
                         default="", help=help_taxon)
     
-    help_assembly_level = "(Optional) Assembly level to retrieve. Options are chromosome, complete, contig, scaffold. Default: all"
+    help_assembly_level = "(Optional) Assembly level to retrieve. Options are chromosome, complete, contig, scaffold"
     parser.add_argument("--assembly_level", "-l", type=str,
-                        default="all", help=help_assembly_level)
+                        default="", help=help_assembly_level)
     
     help_assembly_version = "(Optional) Assembly version. Default: latest"
     parser.add_argument("--assembly_version", "-v", type=str,
