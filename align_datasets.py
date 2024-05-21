@@ -29,6 +29,10 @@ def parse_arguments():
     parser.add_argument("--output_dir", "-o", type=str,
                         required=True, help=help_output)
     
+    help_threads = "(Optional) number of threads. Default = 1"
+    parser.add_argument("--threads", "-t", default=1,
+                        help=help_threads)
+    
     if len(sys.argv)==1:
         parser.print_help()
         exit()
@@ -40,11 +44,12 @@ def get_arguments():
     out_dir = Path(parser.output_dir)
     input_sequences = Path(parser.input)
     datasets_dir = Path(parser.datasets_dir)
+    threads = parser.threads
     
     return {"out_dir": out_dir, 
             "input_sequences": input_sequences,
             "datasets_dir": datasets_dir,
-            }
+            "threads": threads}
 
 
 def main():
@@ -62,7 +67,7 @@ def main():
             print(accession)
             sequence_file = extract_sequences_from_zipped_file(accession, dataset, blast_dir)
             make_db(sequence_file)
-            aln_results = align_sequences(arguments["input_sequences"], sequence_file, blast_dir)
+            aln_results = align_sequences(arguments["input_sequences"], sequence_file, blast_dir, num_threads=arguments["threads"])
             remove_database_and_fasta(sequence_file)
             # sequences_id = get_sequence_ids(arguments["input_sequences"])
             # matched_proteins = select_matches_alignment_results(sequences_id, aln_results)
