@@ -28,7 +28,7 @@ def parse_arguments():
     
     help_threads = "(Optional) number of threads. Default = 1"
     parser.add_argument("--threads", "-t", default=1,
-                        help_output=help_threads)
+                        help=help_threads)
     
     if len(sys.argv)==1:
         parser.print_help()
