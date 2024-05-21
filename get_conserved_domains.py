@@ -51,7 +51,7 @@ def get_arguments():
 
 def main():
     arguments = get_arguments()
-    out_dir = arguments["out_dir"]
+    out_dir = arguments["out_dir"] / "interpro"
     out_dir.mkdir(parents=True, exist_ok=True)
     alignments_files = list_files(arguments["alignments_dir"], prefix="", suffix="tab")
     for aln_file in alignments_files:
