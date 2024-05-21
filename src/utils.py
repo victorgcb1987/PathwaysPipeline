@@ -22,6 +22,7 @@ def list_files(dir, prefix="ncbi", suffix=".zip"):
         files_listed.append(file.resolve())
     return files_listed
 
+
 def extract_sequences_from_zipped_file(dataset, file, out_dir):
     species = "_".join(dataset["organism_name"].split())
     accession = dataset["accession"]
@@ -30,11 +31,13 @@ def extract_sequences_from_zipped_file(dataset, file, out_dir):
     run(cmd, shell=True)
     return sequence_fpath
 
+
 def remove_database_and_fasta(sequences):
     database_path = sequences.parent / (sequences.name+".dmnd")
     database_path.unlink()
     sequences.unlink()
     
+
 def get_sequence_ids(sequences):
     return {sequence.id: [] for sequence in SeqIO.parse(sequences, "fasta")}
 
@@ -68,4 +71,4 @@ def write_matched_sequences(matched_proteins, out_dir, aln_file, dataset, access
         for query, matches in matched_proteins.items():
             for match in matches:
                 SeqIO.write(records[match], sequence_fhand, "fasta")
-    return Path(out_fpath)
+    return out_fpath
