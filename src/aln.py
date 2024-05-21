@@ -23,7 +23,7 @@ def select_matches_alignment_results(aln_results):
                 line = line.rstrip().split()
                 e_value = float(line[7])
                 query_cov = float(line[-1])
-                if e_value < 0.00005 and query_cov > 50:
+                if e_value < 0.00005:
                     query_name = line[0]
                     subject_name = line[1]
                     identity = float(line[6])
