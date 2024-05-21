@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 import argparse
-import os
 import pandas as pd
 import sys
 
@@ -65,12 +64,12 @@ def main():
             make_db(sequence_file)
             aln_results = align_sequences(arguments["input_sequences"], sequence_file, blast_dir)
             remove_database_and_fasta(sequence_file)
-            sequences_id = get_sequence_ids(arguments["input_sequences"])
-            matched_proteins = select_matches_alignment_results(sequences_id, aln_results)
-            dict_to_dataframe["species"].append(accession["organism_name"])
-            for key, value in matched_proteins.items():
-                dict_to_dataframe[key].append(len(value))
-    print(pd.DataFrame.from_dict(dict_to_dataframe))
+            # sequences_id = get_sequence_ids(arguments["input_sequences"])
+            # matched_proteins = select_matches_alignment_results(sequences_id, aln_results)
+            # dict_to_dataframe["species"].append(accession["organism_name"])
+            # for key, value in matched_proteins.items():
+            #     dict_to_dataframe[key].append(len(value))
+    #print(pd.DataFrame.from_dict(dict_to_dataframe))
             
 
 

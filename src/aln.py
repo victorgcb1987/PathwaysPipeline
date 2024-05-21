@@ -1,8 +1,6 @@
-import os
 from subprocess import run
 def make_db(sequences_fpath):
     cmd = "diamond makedb --in {} --db {}".format(sequences_fpath, sequences_fpath)
-    print(cmd)
     run(cmd, shell=True)
 
 
@@ -13,12 +11,12 @@ def align_sequences(input_sequences, diamond_database, blast_dir, num_threads=6)
                                                                           str(diamond_database),
                                                                           str(num_threads))
     cmd += " qstart qend sstart send pident evalue qlen slen qcovhsp > {}".format(str(aln_results_fpath))
-    print(cmd)
     run(cmd, shell=True)
     return aln_results_fpath
 
 
-def select_matches_alignment_results(results, aln_results):
+def select_matches_alignment_results(aln_results):
+    results = {}
     with open(aln_results) as aln_fhand:
         for line in aln_fhand:
             if line:
@@ -29,7 +27,10 @@ def select_matches_alignment_results(results, aln_results):
                     query_name = line[0]
                     subject_name = line[1]
                     identity = float(line[6])
-                    results[query_name].append(subject_name)
+                    if query_name not in results:
+                        results[query_name] = [subject_name]
+                    else:
+                        results[query_name].append(subject_name)
     return results
 
                     
