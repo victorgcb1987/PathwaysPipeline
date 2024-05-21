@@ -1,4 +1,5 @@
 from io import StringIO
+from pathlib import Path
 from re import search
 from subprocess import run
 from tempfile import NamedTemporaryFile
@@ -63,9 +64,8 @@ def write_matched_sequences(matched_proteins, out_dir, aln_file, dataset, access
     cmd = "unzip -p {} {} > {}".format(str(dataset), sequence_filepath, temp_file.name)
     run(cmd, shell=True)
     records = SeqIO.index(temp_file.name, "fasta")
-    print(records)
     with open(out_fpath, "w") as sequence_fhand:
         for query, matches in matched_proteins.items():
             for match in matches:
                 SeqIO.write(records[match], sequence_fhand, "fasta")
-    return out_fpath
+    return Path(out_fpath)

@@ -72,8 +72,5 @@ def main():
     #print(pd.DataFrame.from_dict(dict_to_dataframe))
             
 
-
-
-
 if __name__ == "__main__":
     main()
