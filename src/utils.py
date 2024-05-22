@@ -24,7 +24,7 @@ def list_files(dir, prefix="ncbi", suffix=".zip"):
 
 
 def extract_sequences_from_zipped_file(dataset, file, out_dir):
-    species = "_".join(dataset["organism_name"].split()).replace("[", "").replace("]", "").replace("\'", "").replace("\'", "")
+    species = "_".join(dataset["organism_name"].split()).replace("[", "").replace("]", "").replace("\'", "").replace("\'", "").replace("\\", "-")
     accession = dataset["accession"]
     sequence_fpath = out_dir / "{}_{}.faa".format(accession, species)
     cmd = "unzip -p {} {} > {}".format(str(file), dataset["file"], str(sequence_fpath))
