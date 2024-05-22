@@ -38,6 +38,7 @@ def retrieve_data_from_ncbi(out_dir="", taxon="", assembly_level="",
     elif data_type:
         raise ValueError("Invalid assembly source value: {}".format(data_type))
     cmd.append("--filename ncbi_{}.zip".format("_".join(taxon)))
+    cmd.append("--reference ")
     retrieve_run = run("\t".join(cmd), capture_output=True, shell=True)
     results = {"output_file": out_filepath,
                "return_code": retrieve_run.returncode,
