@@ -64,7 +64,6 @@ def main():
     blast_dir.mkdir(exist_ok=True, parents=True)
     for dataset in datasets_listed:
         for accession in get_dataset_contents(dataset):
-            print(accession)
             sequence_file = extract_sequences_from_zipped_file(accession, dataset, blast_dir)
             make_db(sequence_file)
             aln_results = align_sequences(arguments["input_sequences"], sequence_file, blast_dir, num_threads=arguments["threads"])

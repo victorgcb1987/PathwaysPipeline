@@ -55,6 +55,7 @@ def main():
     out_dir.mkdir(parents=True, exist_ok=True)
     alignments_files = list_files(arguments["alignments_dir"], prefix="", suffix="tab")
     for aln_file in alignments_files:
+        print(aln_file)
         accession = get_accesion_code_from_string(str(aln_file))
         matched_proteins = select_matches_alignment_results(str(aln_file))
         sequences = write_matched_sequences(matched_proteins, out_dir, aln_file, arguments["input_sequences"], accession)

@@ -63,6 +63,8 @@ def write_matched_sequences(matched_proteins, out_dir, aln_file, dataset, access
     temp_file = NamedTemporaryFile()
     filename = aln_file.stem
     out_fpath = out_dir / (filename+".AlignedOnly.faa")
+    if out_fpath.exists():
+        return out_fpath
     sequence_filepath = "ncbi_dataset/data/{}/protein.faa".format(accession)
     cmd = "unzip -p {} {} > {}".format(str(dataset), sequence_filepath, temp_file.name)
     run(cmd, shell=True)
