@@ -1,7 +1,15 @@
+#!/usr/bin/env python
+
+
 import argparse
+import pandas as pd
+import os
 import sys
 
+
 from pathlib import Path
+
+from src.interpro import get_interpro_results, add_results
 
 
 def parse_arguments():
@@ -28,7 +36,6 @@ def parse_arguments():
     parser.add_argument("--database", "-db", type=str,
                         default="NCBIfam", help=help_database)
     
-    
     if len(sys.argv)==1:
         parser.print_help()
         exit()
@@ -40,8 +47,7 @@ def get_arguments():
     reference = Path(parser.reference)
     interpro_dir = Path(parser.interpro_dir)
     alignments_dir = Path(parser.alignment_dir)
-    output = Path(parser.output)
-    
+    output = Path(parser.output)        
     return {"reference": reference, 
             "interpro_dir": interpro_dir,
             "alignments_dir": alignments_dir,
@@ -49,13 +55,29 @@ def get_arguments():
 
 
 def main():
-    arguments = parse_arguments()
-    dict_to_dataframe = {"species": []} | get_sequence_ids(arguments["input_sequences"])
-
-
-
-
-
+    arguments = get_arguments()
+    dict_to_dataframe = {}
+    with open(arguments["reference"]) as reference_fhand:
+        reference_results = get_interpro_results(reference_fhand)
+        dict_to_dataframe["reference"] = ["reference"]
+        for step, genes in reference_results.items():
+            dict_to_dataframe["reference"].append(len(genes))
+    for file in arguments["interpro_dir"].glob("*.interpro.tsv"):
+        name = ".".join(file.stem.replace("vs_", "\t").split()[-1].split(".")[0:2])
+        accession = "_".join(name.split("_")[0:2])
+        species = "_".join(name.split("_")[2:])
+        dict_to_dataframe[accession] = [species]
+        if os.stat(str(file)) == 0:
+            for step in reference_results:
+                dict_to_dataframe[accession].append(0)
+        else:
+            with open(file) as fhand:
+                file_results = get_interpro_results(fhand)
+                for step in reference_results:
+                    dict_to_dataframe[accession].append(len(file_results.get(step, [])))
+    dataframe = pd.DataFrame.from_dict(dict_to_dataframe, orient="index").reset_index()
+    dataframe = dataframe.set_axis(["accession", "species"]+[step for step in reference_results], axis=1)
+    dataframe.to_csv(str(arguments["output"]), sep="\t", index=False)
 
 
 if __name__ == "__main__":
