@@ -32,9 +32,7 @@ def extract_sequences_from_zipped_file(dataset, file, out_dir):
     return sequence_fpath
 
 
-def remove_database_and_fasta(sequences):
-    database_path = sequences.parent / (sequences.name+".dmnd")
-    database_path.unlink()
+def remove_database_and_fasta(sequences, blast_db):
     sequences.unlink()
     
 

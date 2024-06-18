@@ -54,7 +54,6 @@ def get_arguments():
 
 def main():
     arguments = get_arguments()
-    dict_to_dataframe = {"species": []} | get_sequence_ids(arguments["input_sequences"])
     datasets_listed = list_files(arguments["datasets_dir"])
     if len(datasets_listed) < 1:
         raise RuntimeError("No valid datasets found")
@@ -65,9 +64,11 @@ def main():
     for dataset in datasets_listed:
         for accession in get_dataset_contents(dataset):
             sequence_file = extract_sequences_from_zipped_file(accession, dataset, blast_dir)
-            make_db(sequence_file)
+            blastdb_fpath = blast_dir/sequence_file.name
+            make_db(sequence_file, blastdb_fpath)
             aln_results = align_sequences(arguments["input_sequences"], sequence_file, blast_dir, num_threads=arguments["threads"])
-            remove_database_and_fasta(sequence_file)
+            remove_database_and_fasta(sequence_file, blastdb_fpath)
+      
             # sequences_id = get_sequence_ids(arguments["input_sequences"])
             # matched_proteins = select_matches_alignment_results(sequences_id, aln_results)
             # dict_to_dataframe["species"].append(accession["organism_name"])
