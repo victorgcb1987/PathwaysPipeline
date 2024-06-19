@@ -21,7 +21,7 @@ def select_matches_alignment_results(aln_results):
         for line in aln_fhand:
             if line:
                 line = line.rstrip().split()
-                e_value = float(line[-10])
+                e_value = float(line[10])
                 if e_value < 0.00005:
                     query_name = line[0]
                     subject_name = line[1]
