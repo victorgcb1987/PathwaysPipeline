@@ -47,18 +47,20 @@ def get_arguments():
     reference = Path(parser.reference)
     interpro_dir = Path(parser.interpro_dir)
     alignments_dir = Path(parser.alignment_dir)
-    output = Path(parser.output)        
+    output = Path(parser.output)
+    database = parser.database       
     return {"reference": reference, 
             "interpro_dir": interpro_dir,
             "alignments_dir": alignments_dir,
-            "output": output}
+            "output": output,
+            "database": database}
 
 
 def main():
     arguments = get_arguments()
     dict_to_dataframe = {}
     with open(arguments["reference"]) as reference_fhand:
-        reference_results = get_interpro_results(reference_fhand)
+        reference_results = get_interpro_results(reference_fhand, identifier_kind=arguments["database"])
         dict_to_dataframe["reference"] = ["reference"]
         for step, genes in reference_results.items():
             dict_to_dataframe["reference"].append(len(genes))
@@ -72,7 +74,7 @@ def main():
                 dict_to_dataframe[accession].append(0)
         else:
             with open(file) as fhand:
-                file_results = get_interpro_results(fhand)
+                file_results = get_interpro_results(fhand, identifier_kind=arguments["database"])
                 for step in reference_results:
                     dict_to_dataframe[accession].append(len(file_results.get(step, [])))
     dataframe = pd.DataFrame.from_dict(dict_to_dataframe, orient="index").reset_index()
